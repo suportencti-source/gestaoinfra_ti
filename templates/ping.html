@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Monitoramento | Gestão TI{% endblock %}
+{% block breadcrumb %}Monitoramento de rede{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div>
+        <div class="eyebrow">REDE E CONECTIVIDADE</div>
+        <h1>Monitoramento de ping</h1>
+        <p class="page-description">Cadastre hosts e verifique a conectividade sob demanda.</p>
+    </div>
+    <button type="button" class="btn btn-secondary" id="btn-todos">↻ Verificar todos</button>
+</section>
+
+{% if erro %}<div class="alert alert-error">{{ erro }}</div>{% endif %}
+
+<div class="content-columns ping-layout">
+    <section class="panel">
+        <div class="panel-header"><div><h2>Adicionar host</h2><p>Informe um nome e um endereço IP.</p></div></div>
+        <form method="POST" class="form reminder-form ping-form">
+            <label class="field"><span>Nome do computador</span><input type="text" name="nome" required maxlength="150" value="{{ nome }}" placeholder="Ex.: PC Secretaria"></label>
+            <label class="field"><span>Endereço IP</span><input type="text" name="ip" required value="{{ ip }}" placeholder="Ex.: 192.168.0.10"></label>
+            <button type="submit" class="btn btn-primary">＋ Adicionar host</button>
+        </form>
+        <div class="helper-note">A verificação é executada somente quando você solicita.</div>
+    </section>
+    <section class="panel">
+        <div class="panel-header"><div><h2>Hosts cadastrados</h2><p>{{ hosts|length }} host(s) monitorado(s)</p></div></div>
+        <div class="table-wrap">
+            <table class="data-table ping-table">
+                <thead><tr><th>Host</th><th>Endereço IP</th><th>Status</th><th>Ações</th></tr></thead>
+                <tbody>
+                {% for h in hosts %}
+                    <tr data-url="{{ url_for('verificar_ping', host_id=h.id) }}">
+                        <td><strong class="asset-name">{{ h.nome }}</strong></td><td><code>{{ h.ip }}</code></td>
+                        <td><span class="ping-status ping-na">Não verificado</span></td>
+                        <td><div class="table-actions"><button type="button" class="btn btn-small btn-ghost btn-verificar">Verificar</button><form method="POST" action="{{ url_for('remover_ping', host_id=h.id) }}" class="inline-form form-remover" data-nome="{{ h.nome }}"><button type="submit" class="btn btn-small btn-danger-ghost">Remover</button></form></div></td>
+                    </tr>
+                {% else %}<tr>
+                    <td colspan="4">
+                        <div class="empty-state compact">
+                            <span class="empty-icon">⌁</span>
+                            <strong>Nenhum host cadastrado</strong>
+                            <p>Adicione um host para iniciar as verificações.</p>
+                        </div>
+                    </td>
+                </tr>{% endfor %}
+                <tr data-url="{{ url_for('verificar_ping_srv',name_srv=server)}}">
+                    <td><strong><p>{{server}}</p></strong></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    async function verificar(tr) {
+
+        const badge = tr.querySelector('.ping-status');
+        const btn = tr.querySelector('.btn-verificar');
+    
+        btn.disabled = true;
+    
+        badge.className = 'ping-status ping-na';
+        badge.textContent = 'Verificando…';
+        
+        try {
+            const response = await fetch(tr.dataset.url, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            const data = await response.json();
+            badge.textContent = data.status || 'Indisponível';
+            badge.className = 'ping-status ' + (data.status === 'UP' ? 'ping-up' : 'ping-down');
+        } catch (error) {
+            badge.textContent = 'Erro na consulta';
+            badge.className = 'ping-status ping-na';
+        } finally { btn.disabled = false; }
+    }
+    document.querySelectorAll('tr[data-url]').forEach(function (tr) {
+        tr.querySelector('.btn-verificar').addEventListener('click', function () { verificar(tr); });
+    });
+    document.querySelectorAll('.form-remover').forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!confirm('Remover ' + form.dataset.nome + '?')) event.preventDefault();
+        });
+    });
+    const allButton = document.getElementById('btn-todos');
+    if (allButton) allButton.addEventListener('click', async function () {
+        allButton.disabled = true;
+        const rows = Array.from(document.querySelectorAll('tr[data-url]'));
+        await Promise.all(rows.map(verificar));
+        allButton.disabled = false;
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Inventário | Gestão TI{% endblock %}
+{% block breadcrumb %}Inventário de ativos{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div>
+        <div class="eyebrow">ATIVOS E EQUIPAMENTOS</div>
+        <h1>Inventário de TI</h1>
+        <p class="page-description">Consulte e mantenha os equipamentos da infraestrutura organizados.</p>
+    </div>
+    <a href="{{ url_for('novo_ativo') }}" class="btn btn-primary"><span class="btn-symbol">＋</span> Novo ativo</a>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card"><div class="stat-icon icon-violet">▦</div><div><span class="stat-label">Ativos cadastrados</span><strong class="stat-value">{{ ativos|length }}</strong></div></article>
+    <article class="stat-card"><div class="stat-icon icon-green">✓</div><div><span class="stat-label">Em operação</span><strong class="stat-value">{{ ativos|selectattr('status', 'equalto', 'Ativo')|list|length }}</strong></div></article>
+    <article class="stat-card"><div class="stat-icon icon-amber">⚙</div><div><span class="stat-label">Em manutenção</span><strong class="stat-value">{{ ativos|selectattr('status', 'equalto', 'Em manutenção')|list|length }}</strong></div></article>
+</section>
+
+<section class="panel">
+    <div class="panel-header">
+        <div><h2>Equipamentos cadastrados</h2><p>Lista completa dos ativos registrados no sistema.</p></div>
+        <label class="search-box"><span aria-hidden="true">⌕</span><input type="search" id="searchInput" placeholder="Buscar por nome, patrimônio..." aria-label="Buscar ativos"></label>
+    </div>
+    <div class="table-wrap">
+        <table class="data-table" id="ativosTable">
+            <thead><tr><th>ID</th><th>Nome / hostname</th><th>Tipo</th><th>Patrimônio</th><th>Localização</th><th>Status</th><th class="actions-heading">Ações</th></tr></thead>
+            <tbody>
+            {% for ativo in ativos %}
+                <tr>
+                    <td class="muted-cell">#{{ ativo.id }}</td>
+                    <td><a class="asset-name" href="{{ url_for('detalhe_ativo', ativo_id=ativo.id) }}">{{ ativo.nome }}</a></td>
+                    <td><span class="type-label">{{ ativo.tipo }}</span></td>
+                    <td>{{ ativo.patrimonio or '—' }}</td>
+                    <td>{{ ativo.localizacao or '—' }}</td>
+                    <td><span class="status-badge {% if ativo.status == 'Ativo' %}status-active{% elif ativo.status == 'Em manutenção' %}status-maintenance{% elif ativo.status == 'Inativo' %}status-inactive{% else %}status-discarded{% endif %}"><span></span>{{ ativo.status }}</span></td>
+                    <td class="actions-cell"><a href="{{ url_for('detalhe_ativo', ativo_id=ativo.id) }}" class="btn btn-small btn-ghost" aria-label="Ver detalhes de {{ ativo.nome }}">Ver detalhes <span>↗</span></a></td>
+                </tr>
+            {% else %}
+                <tr><td colspan="7"><div class="empty-state"><span class="empty-icon">▦</span><strong>Nenhum ativo cadastrado</strong><p>Adicione o primeiro equipamento para começar o inventário.</p><a href="{{ url_for('novo_ativo') }}" class="btn btn-primary">Cadastrar ativo</a></div></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer"><span id="resultCount">{{ ativos|length }} ativo(s) listado(s)</span><span>Dados do inventário</span></div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('searchInput');
+    const table = document.getElementById('ativosTable');
+    const count = document.getElementById('resultCount');
+    if (!input || !table) return;
+    input.addEventListener('input', function () {
+        const query = input.value.trim().toLocaleLowerCase('pt-BR');
+        let visible = 0;
+        table.querySelectorAll('tbody tr').forEach(function (row) {
+            const match = row.textContent.toLocaleLowerCase('pt-BR').includes(query);
+            row.hidden = !match;
+            if (match && row.querySelector('td[colspan]') === null) visible++;
+        });
+        if (count) count.textContent = visible + ' ativo(s) encontrado(s)';
+    });
+});
+</script>
+{% endblock %}

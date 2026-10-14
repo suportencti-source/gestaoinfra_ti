@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{{ ativo.nome }} | Gestão TI{% endblock %}
+{% block breadcrumb %}Detalhes do ativo{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div><div class="eyebrow">DETALHES DO EQUIPAMENTO</div><h1>{{ ativo.nome }} <span class="type-label heading-type">{{ ativo.tipo }}</span></h1><p class="page-description">Visualize e atualize as informações e anotações deste ativo.</p></div>
+    <div class="heading-actions"><a href="{{ url_for('editar_ativo', ativo_id=ativo.id) }}" class="btn btn-secondary">Editar ativo</a><form method="POST" action="{{ url_for('excluir_ativo', ativo_id=ativo.id) }}" class="inline-form" onsubmit="return confirm('Tem certeza de que deseja excluir este ativo?');"><button type="submit" class="btn btn-danger">Excluir</button></form></div>
+</section>
+<section class="details-grid">
+    <article class="panel detail-card"><span class="detail-label">Patrimônio</span><strong>{{ ativo.patrimonio or 'Não informado' }}</strong></article>
+    <article class="panel detail-card"><span class="detail-label">Localização</span><strong>{{ ativo.localizacao or 'Não informada' }}</strong></article>
+    <article class="panel detail-card"><span class="detail-label">Status</span><strong><span class="status-badge {% if ativo.status == 'Ativo' %}status-active{% elif ativo.status == 'Em manutenção' %}status-maintenance{% elif ativo.status == 'Inativo' %}status-inactive{% else %}status-discarded{% endif %}"><span></span>{{ ativo.status }}</span></strong></article>
+</section>
+<details class="panel disclosure" open>
+    <summary><span><strong>Observações</strong><small>Notas gerais sobre o equipamento</small></span><span class="disclosure-chevron">⌄</span></summary>
+    <div class="disclosure-content"><form method="POST" action="{{ url_for('salvar_observacao', ativo_id=ativo.id) }}" class="form"><label class="field"><span>Anotações</span><textarea name="observacoes" rows="5" placeholder="Adicione informações úteis sobre este ativo...">{{ ativo.observacoes or '' }}</textarea></label><div><button type="submit" class="btn btn-primary">Salvar observações</button></div></form></div>
+</details>
+<details class="panel disclosure">
+    <summary><span><strong>Configurações <span class="count-pill">{{ ativo.configuracoes|length }}</span></strong><small>Informações técnicas associadas ao equipamento</small></span><span class="disclosure-chevron">⌄</span></summary>
+    <div class="disclosure-content">
+        <form method="POST" action="{{ url_for('nova_configuracao', ativo_id=ativo.id) }}" class="form config-form">
+            <label class="field"><span>Nome da configuração</span><input type="text" name="nome_config" placeholder="Ex.: VLAN, IP fixo, acesso remoto" required></label>
+            <label class="field"><span>Detalhes</span><textarea name="nota_config" rows="3" placeholder="Descrição ou observações técnicas..."></textarea></label>
+            <div><button type="submit" class="btn btn-primary">＋ Adicionar configuração</button></div>
+        </form>
+        <ul class="item-list">
+        {% for config in ativo.configuracoes %}
+            <li><div class="item-list-copy"><strong>{{ config.nome }}</strong><p>{{ config.nota or 'Sem detalhes adicionais.' }}</p></div><form method="POST" action="{{ url_for('excluir_configuracao', config_id=config.id) }}" onsubmit="return confirm('Excluir esta configuração?');"><button type="submit" class="btn btn-small btn-danger-ghost">Remover</button></form></li>
+        {% else %}<li class="empty-inline">Nenhuma configuração cadastrada.</li>{% endfor %}
+        </ul>
+    </div>
+</details>
+{% endblock %}

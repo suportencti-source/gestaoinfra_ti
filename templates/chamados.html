@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Chamados | Gestão TI{% endblock %}
+{% block breadcrumb %}Chamados{% endblock %}
+{% block content %}
+<section class="page-heading"><div><div class="eyebrow">ATENDIMENTO</div><h1>Chamados de TI</h1><p class="page-description">Área reservada para registro e acompanhamento de solicitações.</p></div></section>
+<section class="panel feature-placeholder">
+    <div class="placeholder-icon">▤</div>
+    <div class="eyebrow">MÓDULO EM PREPARAÇÃO</div>
+    <h2>O fluxo de chamados ainda não está conectado</h2>
+    <p>Esta tela está em modo informativo para evitar o envio de formulários que não são processados pelo servidor. Quando o módulo for implementado, será possível registrar solicitações, definir prioridades e acompanhar o status.</p>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">Voltar ao inventário</a>
+</section>
+{% endblock %}

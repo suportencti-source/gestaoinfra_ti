@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Lembretes | Gestão TI{% endblock %}
+{% block breadcrumb %}Lembretes{% endblock %}
+{% block content %}
+<section class="page-heading"><div><div class="eyebrow">ORGANIZAÇÃO</div><h1>Lembretes</h1><p class="page-description">Registre tarefas e pontos de atenção da rotina de TI.</p></div></section>
+<div class="content-columns">
+    <section class="panel">
+        <div class="panel-header"><div><h2>Novo lembrete</h2><p>Registre uma tarefa ou informação importante.</p></div></div>
+        <form method="POST" class="form reminder-form">
+            <label class="field"><span>Descrição do lembrete</span><textarea name="texto" rows="5" placeholder="Ex.: Verificar os pontos de rede da sala 03..." required></textarea></label>
+            <button type="submit" class="btn btn-primary">＋ Adicionar lembrete</button>
+        </form>
+    </section>
+    <section class="panel">
+        <div class="panel-header"><div><h2>Seus lembretes</h2><p>{{ lembretes|length }} registro(s)</p></div></div>
+        <ul class="item-list reminder-list">
+        {% for lembrete in lembretes %}
+            <li><div class="item-list-copy"><p>{{ lembrete.texto }}</p><span class="item-meta">Criado em {{ lembrete.criado_em.strftime('%d/%m/%Y às %H:%M') }}</span></div><form method="POST" action="{{ url_for('excluir_lembrete', lembrete_id=lembrete.id) }}" class="inline-form" onsubmit="return confirm('Excluir este lembrete?');"><button type="submit" class="icon-button" aria-label="Excluir lembrete">×</button></form></li>
+        {% else %}<li class="empty-state compact"><span class="empty-icon">◷</span><strong>Nenhum lembrete ainda</strong><p>Os lembretes adicionados aparecerão aqui.</p></li>{% endfor %}
+        </ul>
+    </section>
+</div>
+{% endblock %}
