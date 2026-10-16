@@ -6,14 +6,22 @@
     <div><div class="eyebrow">INVENTÁRIO</div><h1>{{ 'Editar ativo' if ativo else 'Cadastrar ativo' }}</h1><p class="page-description">Preencha os dados principais do equipamento.</p></div>
     <a href="{{ url_for('index') }}" class="btn btn-ghost">← Voltar ao inventário</a>
 </section>
+{% if erro %}<div class="alert alert-error">{{ erro }}</div>{% endif %}
 <section class="panel form-panel">
     <div class="panel-header"><div><h2>Informações do equipamento</h2><p>Os campos marcados com * são obrigatórios.</p></div></div>
     <form method="POST" class="form form-grid">
-        <label class="field field-full"><span>Nome do equipamento <b>*</b></span><input type="text" name="nome" value="{{ ativo.nome if ativo else '' }}" placeholder="Ex.: PC Secretaria 01" required maxlength="150"></label>
-        <label class="field"><span>Tipo <b>*</b></span><select name="tipo" required><option value="">Selecione um tipo</option>{% for tipo in tipos %}<option value="{{ tipo }}" {% if ativo and ativo.tipo == tipo %}selected{% endif %}>{{ tipo }}</option>{% endfor %}</select></label>
-        <label class="field"><span>Status</span><select name="status">{% for s in ['Ativo', 'Em manutenção', 'Inativo', 'Descartado'] %}<option value="{{ s }}" {% if ativo and ativo.status == s %}selected{% elif not ativo and s == 'Ativo' %}selected{% endif %}>{{ s }}</option>{% endfor %}</select></label>
-        <label class="field"><span>Número de patrimônio</span><input type="text" name="patrimonio" value="{{ ativo.patrimonio if ativo else '' }}" placeholder="Ex.: NC-PC001"></label>
-        <label class="field"><span>Localização</span><input type="text" name="localizacao" value="{{ ativo.localizacao if ativo else '' }}" placeholder="Ex.: Secretaria"></label>
+        <label class="field field-full"><span>Nome do equipamento <b>*</b></span><input type="text" name="nome" value="{{ dados.get('nome') or '' }}" placeholder="Ex.: PC Secretaria 01" required maxlength="150"></label>
+        <label class="field"><span>Tipo <b>*</b></span><select name="tipo" required><option value="">Selecione um tipo</option>{% for tipo in tipos %}<option value="{{ tipo }}" {% if dados.get('tipo') == tipo %}selected{% endif %}>{{ tipo }}</option>{% endfor %}</select></label>
+        <label class="field"><span>Setor <b>*</b></span>
+            <select name="setor_id" required>
+                <option value="">{{ 'Selecione um setor' if setores else 'Nenhum setor cadastrado' }}</option>
+                {% for setor in setores %}<option value="{{ setor.id }}" {% if dados.get('setor_id')|string == setor.id|string %}selected{% endif %}>{{ setor.nome }}</option>{% endfor %}
+            </select>
+            {% if not setores %}<small><a href="{{ url_for('setores') }}" style="color: var(--accent)">Cadastre um setor primeiro →</a></small>{% endif %}
+        </label>
+        <label class="field"><span>Status</span><select name="status">{% for s in status_opcoes %}<option value="{{ s }}" {% if (dados.get('status') or 'Ativo') == s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select></label>
+        <label class="field"><span>Número de patrimônio</span><input type="text" name="patrimonio" value="{{ dados.get('patrimonio') or '' }}" placeholder="Ex.: NC-PC001"></label>
+        <label class="field field-full"><span>Localização</span><input type="text" name="localizacao" value="{{ dados.get('localizacao') or '' }}" placeholder="Ex.: Sala 03"></label>
         <div class="form-actions field-full"><button type="submit" class="btn btn-primary">Salvar ativo</button><a href="{{ url_for('index') }}" class="btn btn-ghost">Cancelar</a></div>
     </form>
 </section>

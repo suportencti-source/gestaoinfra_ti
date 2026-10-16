@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Setores | Gestão TI{% endblock %}
+{% block breadcrumb %}Setores{% endblock %}
+{% block content %}
+<section class="page-heading"><div><div class="eyebrow">ORGANIZAÇÃO</div><h1>Setores</h1><p class="page-description">Cadastre os setores aos quais os ativos pertencem.</p></div></section>
+{% if erro %}<div class="alert alert-error">{{ erro }}</div>{% endif %}
+<div class="content-columns">
+    <section class="panel">
+        <div class="panel-header"><div><h2>Novo setor</h2><p>Informe o nome do setor.</p></div></div>
+        <form method="POST" class="form reminder-form">
+            <label class="field"><span>Nome do setor</span><input type="text" name="nome" value="{{ nome }}" required maxlength="100" placeholder="Ex.: Secretaria"></label>
+            <button type="submit" class="btn btn-primary">＋ Adicionar setor</button>
+        </form>
+    </section>
+    <section class="panel">
+        <div class="panel-header"><div><h2>Setores cadastrados</h2><p>{{ setores|length }} setor(es)</p></div></div>
+        <ul class="item-list reminder-list">
+        {% for setor, total in setores %}
+            <li><div class="item-list-copy"><strong>{{ setor.nome }}</strong><span class="item-meta">{{ total }} ativo(s)</span></div>
+            <form method="POST" action="{{ url_for('excluir_setor', setor_id=setor.id) }}" class="inline-form" onsubmit="return confirm('Excluir este setor?');"><button type="submit" class="icon-button" aria-label="Excluir setor" {% if total %}disabled title="Possui ativos vinculados"{% endif %}>×</button></form></li>
+        {% else %}<li class="empty-state compact"><span class="empty-icon">▦</span><strong>Nenhum setor ainda</strong><p>Cadastre um setor para poder criar ativos.</p></li>{% endfor %}
+        </ul>
+    </section>
+</div>
+{% endblock %}
