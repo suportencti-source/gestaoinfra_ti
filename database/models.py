@@ -64,3 +64,5 @@ class PingHost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(150), nullable=False)
     ip = db.Column(db.String(45), nullable=False)
+    tipo = db.Column(db.String(20), nullable=False, default='PC', server_default='PC')
+

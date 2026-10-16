@@ -1,15 +1,15 @@
 import sqlite3
 
-con = sqlite3.connect("database/ativos.db")
-cur = con.cursor()
+conn = sqlite3.connect('database/ativos.db')
+try:
+    conn.execute("ALTER TABLE ping_hosts ADD COLUMN tipo VARCHAR(20) NOT NULL DEFAULT 'PC'")
+    conn.commit()
+    print('ok: coluna tipo criada')
+except sqlite3.OperationalError as e:
+    print('erro:', e)
+finally:
+    conn.close()
 
-colunas = [c[1] for c in cur.execute("PRAGMA table_info(ativos)")]
-if "setor_id" not in colunas:
-    cur.execute("ALTER TABLE ativos ADD COLUMN setor_id INTEGER REFERENCES setores(id)")
-    cur.execute("CREATE INDEX IF NOT EXISTS ix_ativos_setor_id ON ativos (setor_id)")
-    con.commit()
-    print("Coluna setor_id adicionada.")
-else:
-    print("Coluna já existe, nada a fazer.")
-
-con.close()
+conn = sqlite3.connect('database/ativos.db')
+print(conn.execute('PRAGMA table_info(ping_hosts)').fetchall())
+conn.close()

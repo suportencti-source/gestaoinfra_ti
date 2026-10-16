@@ -17,7 +17,8 @@
     <section class="panel">
         <div class="panel-header"><div><h2>Adicionar host</h2><p>Informe um nome e um endereço IP.</p></div></div>
         <form method="POST" class="form reminder-form ping-form">
-            <label class="field"><span>Nome do computador</span><input type="text" name="nome" required maxlength="150" value="{{ nome }}" placeholder="Ex.: PC Secretaria"></label>
+            <label class="field"><span>Nome do host</span><input type="text" name="nome" required maxlength="150" value="{{ nome }}" placeholder="Ex.: PC Secretaria ou SRV Arquivos"></label>
+            <label class="field"><span>Tipo</span><select name="tipo" required>{% for t in tipos %}<option value="{{ t }}" {% if tipo == t %}selected{% endif %}>{{ t }}</option>{% endfor %}</select></label>
             <label class="field"><span>Endereço IP</span><input type="text" name="ip" required value="{{ ip }}" placeholder="Ex.: 192.168.0.10"></label>
             <button type="submit" class="btn btn-primary">＋ Adicionar host</button>
         </form>
@@ -27,26 +28,19 @@
         <div class="panel-header"><div><h2>Hosts cadastrados</h2><p>{{ hosts|length }} host(s) monitorado(s)</p></div></div>
         <div class="table-wrap">
             <table class="data-table ping-table">
-                <thead><tr><th>Host</th><th>Endereço IP</th><th>Status</th><th>Ações</th></tr></thead>
+                <thead><tr><th>Host</th><th>Tipo</th><th>Endereço IP</th><th>Status</th><th>Ações</th></tr></thead>
                 <tbody>
-                {% for h in hosts %}
+                    {% for h in hosts %}
                     <tr data-url="{{ url_for('verificar_ping', host_id=h.id) }}">
-                        <td><strong class="asset-name">{{ h.nome }}</strong></td><td><code>{{ h.ip }}</code></td>
+                        <td><strong class="asset-name">{{ h.nome }}</strong></td>
+                        <td><span class="type-label">{{ h.tipo }}</span></td>
+                        <td><code>{{ h.ip }}</code></td>
                         <td><span class="ping-status ping-na">Não verificado</span></td>
                         <td><div class="table-actions"><button type="button" class="btn btn-small btn-ghost btn-verificar">Verificar</button><form method="POST" action="{{ url_for('remover_ping', host_id=h.id) }}" class="inline-form form-remover" data-nome="{{ h.nome }}"><button type="submit" class="btn btn-small btn-danger-ghost">Remover</button></form></div></td>
                     </tr>
-                {% else %}<tr>
-                    <td colspan="4">
-                        <div class="empty-state compact">
-                            <span class="empty-icon">⌁</span>
-                            <strong>Nenhum host cadastrado</strong>
-                            <p>Adicione um host para iniciar as verificações.</p>
-                        </div>
-                    </td>
-                </tr>{% endfor %}
-                <tr data-url="{{ url_for('verificar_ping_srv',name_srv=server)}}">
-                    <td><strong><p>{{server}}</p></strong></td>
-                </tr>
+                    {% else %}
+                    <tr><td colspan="5"><div class="empty-state compact"><span class="empty-icon">⌁</span><strong>Nenhum host cadastrado</strong><p>Adicione um PC ou servidor para iniciar as verificações.</p></div></td></tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
