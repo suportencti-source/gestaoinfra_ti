@@ -31,6 +31,9 @@
                 <a href="{{ url_for('ping') }}" class="nav-link {% if request.endpoint in ['ping', 'verificar_ping', 'remover_ping'] %}active{% endif %}">
                     <span class="nav-icon">⌁</span><span>Monitoramento</span>
                 </a>
+                <a href="{{ url_for('setores') }}" class="nav-link {% if request.endpoint in ['setores', 'excluir_setor'] %}active{% endif %}">
+                    <span class="nav-icon">▥</span><span>Setores</span>
+                </a>
             </nav>
             <div class="sidebar-bottom">
                 <span class="status-dot"></span>
@@ -44,6 +47,9 @@
                 <div class="topbar-right"><span class="system-indicator"><span class="status-dot"></span> Sistema de gestão</span><span class="avatar">TI</span></div>
             </header>
             <main class="container">
+                {% for categoria, msg in get_flashed_messages(with_categories=true) %}
+                <div class="alert alert-{{ categoria }}" role="status">{{ msg }}</div>
+                {% endfor %}
                 {% block content %}{% endblock %}
                 <footer class="site-footer"><span>Gestão TI</span><span>Painel interno de infraestrutura</span></footer>
             </main>

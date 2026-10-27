@@ -3,13 +3,13 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 fuso_local = ZoneInfo("America/Fortaleza")
+
 db = SQLAlchemy()
 
 
 def agora():
     return datetime.now(fuso_local)
-
-
+    
 class Setor(db.Model):
     __tablename__ = 'setores'
 
