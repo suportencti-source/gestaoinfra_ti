@@ -8,3 +8,5 @@ venv/
 
 # Flask
 .flaskenv
+
+.json
