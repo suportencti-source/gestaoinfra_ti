@@ -9,6 +9,7 @@
 <section class="details-grid">
     <article class="panel detail-card"><span class="detail-label">Patrimônio</span><strong>{{ ativo.patrimonio or 'Não informado' }}</strong></article>
     <article class="panel detail-card"><span class="detail-label">Localização</span><strong>{{ ativo.localizacao or 'Não informada' }}</strong></article>
+    <article class="panel detail-card"><span class="detail-label">Setor</span><strong>{{ ativo.setor.nome if ativo.setor else 'Não informado' }}</strong></article>
     <article class="panel detail-card"><span class="detail-label">Status</span><strong><span class="status-badge {% if ativo.status == 'Ativo' %}status-active{% elif ativo.status == 'Em manutenção' %}status-maintenance{% elif ativo.status == 'Inativo' %}status-inactive{% else %}status-discarded{% endif %}"><span></span>{{ ativo.status }}</span></strong></article>
 </section>
 <details class="panel disclosure" open>

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "chamados-506218",
+  "private_key_id": "0c39934ad47867cdcdc3e8d4f767c5a7bcc19aa9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC/kDPlVXnbqG3j\n31OfIhL1BbC+kw7Bl43GCvdxqx8BRuOjBHfS00Rm1R23yFNBBVPuQYLCTqL2DhXp\nw6TWIxC/5UDd39Ds1hBs5fpjyh8pMt+sReuzppot3RXgCaGtxafXJ9EMdTSpZ4Yc\nT894DnNOlHuk1CzDjlIvVtAKG+P1RvCe72cYasGnVypx2ZPJtMPbzFjSy2hLUWKg\nMJ5NDdIeyKLehnCqRDege56itoXOgo4mT5Bzg4i104vMQsomQb4bQJei3b+ydfKh\nxNM7Ytzu3cncXi4f6osPwDnjS+9ZdEXnlapDtKxsIOUAzJf/Gs7Y6Ld2TDF4SWKH\nSlP9GHutAgMBAAECggEAIKoPH1DW6YyryEphcOYXg25H+AcNYhdclmNyVBCQxd/3\nmul9IRbjOAGpApiHEbQ93oePK2DLSteWBvlUVys9hOsrh2nNr0TFIjyI2JEzhQvm\ntfJqQYTsD1v+ieg6iG4Gs5pXfB9ULnq3lIZLYzZblQ+ekbmYNHRFMUtFSCP/V+hH\n44gn1xPWBh+1659UkUjELQjsTw48u1tyWMcQbPFk9rU53xd3d1wRbThcCt/etTQ7\nEeDaMDmz46fYgxgJFfL5UJa0ueeHxvOrn/Dg2zULKsN1P6V/BJQaJkSXhgWxN4FS\nswl80MhxwYGHW2Krm23Py/BcQ9FIXtPQes5WWLa9JQKBgQD0rARF3tac6IqiP9qY\nNmdPaFZRWjwPG4uO7Chmd7ds5XB7V+xF8gfwHjNijOZfrBGdzmUK+ATRk+o5fzCk\nL6HYl4f+ZroiT2CCW24qfoR26QwcIwOuzf6+MZ2hG7O8DhZkVgAJVvQ1zbpoYyj9\nNfOIGmhpEU7089jZYofRqJtZNwKBgQDIbra642e42SZJHwWwxAsxkDtI1ChbjjJT\nzRt01oKKsxj1yN48zFwO2aLmT65wAxTFxwAH3+GtLpvRpkk9FAO5imjql1TCpdQF\nsQLGDvOOpL4LwpdlLhEfw6i6wvBwBQyBmQCi9Rt9Dp8YpWGm4QmDaTXH6zgbOqXW\nFAp7wRJ0OwKBgDbT7Uky/GjA+4AMSxHc7x2uRdmJHPhNteJbLVp47VOrvp8FPt8V\ns42tVtp4tI8v4eq4+4+PsJS+Trh/tgi029HLcyAhKQjTPM85aeB/5XM4GgycFBEx\n/CnmuGoH6Sj1BzOIyg1NvP/pkCIgRmknk+El+cvBoy3lDuz31XO4EsfVAoGADWLf\nj2HKtpzCItYQkjq1qKzCWN3aiCraD6C+ObJt64eEnj25IgRgDZnZeFpQAykhhQgC\nZ4Q7VU6sl3bso0in6wdkdG6A+bMLkwm8bq/m8lrsWmq3o8lM2Xs+1KJaXpDnwewP\nD9Mg79w/Ie1BtVyIPx+SuPRrvd3P35ldDeDaM6sCgYEA220P2BsCjdtrRTIszwg2\njM3VgiQpHmm+Nd2XpIgVeBvJ7ay1OFF3CdIscg7zqXvHF9EF9X7X9bwQjhjSfO90\nyvlOL3hFAjp9quj28HEJx7L/Saq72PuTXOqqjFuS7gygDJd3pH0jQAlQSYiwfC7B\n/R3IG2dc5v0spcxNtpXWRrM=\n-----END PRIVATE KEY-----\n",
+  "client_email": "chamados-service@chamados-506218.iam.gserviceaccount.com",
+  "client_id": "106355605012562907330",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/chamados-service%40chamados-506218.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
