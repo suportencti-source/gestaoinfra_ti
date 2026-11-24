@@ -9,4 +9,4 @@ venv/
 # Flask
 .flaskenv
 
-.json
+*.json
