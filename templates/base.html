@@ -34,6 +34,9 @@
                 <a href="{{ url_for('setores') }}" class="nav-link {% if request.endpoint in ['setores', 'excluir_setor'] %}active{% endif %}">
                     <span class="nav-icon">▥</span><span>Setores</span>
                 </a>
+                <a href="{{ url_for('planilhas') }}" class="nav-link {% if request.endpoint in ['planilhas', 'planilha_aba'] %}active{% endif %}">
+                    <span class="nav-icon">▤</span><span>Planilhas</span>
+                </a>
             </nav>
             <div class="sidebar-bottom">
                 <span class="status-dot"></span>

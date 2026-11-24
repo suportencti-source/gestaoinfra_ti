@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Planilhas | Gestão TI{% endblock %}
+{% block breadcrumb %}Planilhas de chamados{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div><div class="eyebrow">CHAMADOS</div><h1>Abas da planilha</h1><p class="page-description">Selecione uma aba para visualizar seu conteúdo.</p></div>
+</section>
+<section class="panel">
+    <div class="panel-header"><div><h2>Abas disponíveis</h2><p>{{ abas|length }} aba(s)</p></div></div>
+    <ul class="item-list reminder-list">
+    {% for aba in abas %}
+        <li><div class="item-list-copy"><strong>{{ aba }}</strong></div><a class="btn btn-small btn-ghost" href="{{ url_for('planilha_aba', nome_aba=aba) }}">Abrir ↗</a></li>
+    {% else %}<li class="empty-state compact"><strong>Nenhuma aba encontrada</strong></li>{% endfor %}
+    </ul>
+</section>
+{% endblock %}

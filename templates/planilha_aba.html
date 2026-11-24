@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ nome_aba }} | Gestão TI{% endblock %}
+{% block breadcrumb %}Planilhas / {{ nome_aba }}{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div><div class="eyebrow">CHAMADOS</div><h1>{{ nome_aba }}</h1><p class="page-description">{{ linhas|length }} linha(s) de dados. Atualize a página para ver as alterações.</p></div>
+    <a href="{{ url_for('planilhas') }}" class="btn btn-ghost">← Voltar às abas</a>
+</section>
+<section class="panel">
+    <div class="table-wrap">
+        <table class="data-table">
+            <thead><tr>{% for col in cabecalho %}<th>{{ col }}</th>{% endfor %}</tr></thead>
+            <tbody>
+            {% for linha in linhas %}
+                <tr>{% for celula in linha %}<td>{{ celula }}</td>{% endfor %}</tr>
+            {% else %}
+                <tr><td colspan="{{ cabecalho|length or 1 }}"><div class="empty-state"><strong>Aba sem dados</strong></div></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

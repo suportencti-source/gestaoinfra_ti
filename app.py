@@ -2,7 +2,7 @@
 import os
 from flask import Flask
 from database.models import db
-from services import ativo_services, setor_services, lembrete_services, ping_services
+from services import ativo_services, setor_services, lembrete_services, ping_services, planilha_services
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -16,7 +16,7 @@ def create_app(config=None):
 
     db.init_app(app)
 
-    for servico in (ativo_services, setor_services, lembrete_services, ping_services):
+    for servico in (ativo_services, setor_services, lembrete_services, ping_services, planilha_services):
         servico.registrar(app)
 
     with app.app_context():
